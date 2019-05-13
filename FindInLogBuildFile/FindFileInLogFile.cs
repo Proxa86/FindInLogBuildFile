@@ -28,11 +28,11 @@ namespace FindInLogBuildFile
             List<FileFind> lFileFind = new List<FileFind>();
 
             List<ClassFile> lFilesC = FindFileInFolder.lFilesC;
-            List<ClassFile> lFilesH = FindFileInFolder.lFilesH;
+            //List<ClassFile> lFilesH = FindFileInFolder.lFilesH;
 
             List<ClassFile> lFileNotFind = new List<ClassFile>();
             lFileNotFind.AddRange(lFilesC);
-            lFileNotFind.AddRange(lFilesH);
+            //lFileNotFind.AddRange(lFilesH);
 
             try
             {
@@ -52,7 +52,7 @@ namespace FindInLogBuildFile
                             {
                                 string line = f.ReadLine();
                                 Console.WriteLine(++k);
-                                ++k;
+                                //++k;
                                 //int index = -1;
                                 string paternPlus = "\\+";
                                 string nameFile = "";
@@ -72,8 +72,10 @@ namespace FindInLogBuildFile
                                         nameFile = ffile.NameFile.Replace("+", "\\+");
                                         string compileFile1 = nameFile + ".o";
                                         string compileFile2 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".o";
+                                        string compileFile3 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".lo";
                                         compileFile2 = compileFile2.Replace("+", "\\+");
-                                        string str = @"(/" + compileFile1 + @")|(/" + compileFile2 + @")|(/" + nameFile + ")|(\\s" + compileFile1 + "\\s)|(\\s" + compileFile2 + "\\s)|(\\s" + nameFile + "\\s)";
+                                        compileFile3 = compileFile3.Replace("+", "\\+");
+                                        string str = @"(/" + compileFile1 + @"\s{0,})|(/" + compileFile2 + @"\s{0,})|(/" + compileFile3 + @"\s{0,})|(/" + ffile.NameFile + "\\s{0,})|([\\t\\s]" + compileFile1 + "\\s{0,})|([\\s\\t]" + compileFile2 + "\\s{0,})|([\\s\\t]" + compileFile3 + "\\s{0,})|([\\t\\s]" + ffile.NameFile + "\\s{0,})";
                                         regex = new Regex(str);
                                         match = regex.Match(line);
                                         if (match.Success)
@@ -94,7 +96,8 @@ namespace FindInLogBuildFile
                                     {
                                         string compileFile1 = ffile.NameFile + ".o";
                                         string compileFile2 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".o";
-                                        string str = @"(/" + compileFile1 + @")|(/" + compileFile2 + @")|(/" + ffile.NameFile + ")|(\\s" + compileFile1 + "\\s)|(\\s" + compileFile2 + "\\s)|(\\s" + ffile.NameFile + "\\s)";
+                                        string compileFile3 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".lo";
+                                        string str = @"(/" + compileFile1 + @"\s{0,})|(/" + compileFile2 + @"\s{0,})|(/" + compileFile3 + @"\s{0,})|(/" + ffile.NameFile + "\\s{0,})|([\\t\\s]" + compileFile1 + "\\s{0,})|([\\s\\t]" + compileFile2 + "\\s{0,})|([\\s\\t]" + compileFile3 + "\\s{0,})|([\\t\\s]" + ffile.NameFile + "\\s{0,})";
                                         regex = new Regex(str);
                                         match = regex.Match(line);
                                         if (match.Success)
@@ -114,56 +117,56 @@ namespace FindInLogBuildFile
                                     
                                 }
 
-                                foreach (var ffile in lFilesH)
-                                {
-                                    //++index;
-                                    FileFind fileFind = new FileFind();
-                                    nameFile = ffile.NameFile;
-                                    Console.WriteLine(d++ + " " + nameFile);
-                                    Regex regex = new Regex(paternPlus);
-                                    Match match = regex.Match(nameFile);
-                                    if (match.Success)
-                                    {
-                                        nameFile = ffile.NameFile.Replace("+", "\\+");
-                                        string str = @"(/" + nameFile + @")|(/" + nameFile + ")|(\\s" + nameFile + "\\s)|(\\s" + nameFile + "\\s)";
-                                        regex = new Regex(str);
-                                        match = regex.Match(line);
-                                        if (match.Success)
-                                        {
-                                            fileFind.NameFile = ffile.NameFile;
-                                            fileFind.NumberFile = ++i;
-                                            fileFind.PathFile = ffile.PathFile;
-                                            fileFind.NumberStringLogFile = j;
-                                            fileFind.StringLogFile = line;
+                                //foreach (var ffile in lFilesH)
+                                //{
+                                //    //++index;
+                                //    FileFind fileFind = new FileFind();
+                                //    nameFile = ffile.NameFile;
+                                //    Console.WriteLine(d++ + " " + nameFile);
+                                //    Regex regex = new Regex(paternPlus);
+                                //    Match match = regex.Match(nameFile);
+                                //    if (match.Success)
+                                //    {
+                                //        nameFile = ffile.NameFile.Replace("+", "\\+");
+                                //        string str = @"(/" + nameFile + @")|(/" + nameFile + ")|(\\s" + nameFile + "\\s)|(\\s" + nameFile + "\\s)";
+                                //        regex = new Regex(str);
+                                //        match = regex.Match(line);
+                                //        if (match.Success)
+                                //        {
+                                //            fileFind.NameFile = ffile.NameFile;
+                                //            fileFind.NumberFile = ++i;
+                                //            fileFind.PathFile = ffile.PathFile;
+                                //            fileFind.NumberStringLogFile = j;
+                                //            fileFind.StringLogFile = line;
 
-                                            lFileFind.Add(fileFind);
-                                            var df = lFileNotFind.FirstOrDefault(x => x.NameFile.Equals(ffile.NameFile));
-                                            if (df != null)
-                                                lFileNotFind.Remove(df);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        string str = @"(/" + ffile.NameFile + @")|(/" + ffile.NameFile + ")|(\\s" + ffile.NameFile + "\\s)|(\\s" + ffile.NameFile + "\\s)";
-                                        regex = new Regex(str);
-                                        match = regex.Match(line);
-                                        if (match.Success)
-                                        {
-                                            fileFind.NameFile = ffile.NameFile;
-                                            fileFind.NumberFile = ++i;
-                                            fileFind.PathFile = ffile.PathFile;
-                                            fileFind.NumberStringLogFile = j;
-                                            fileFind.StringLogFile = line;
+                                //            lFileFind.Add(fileFind);
+                                //            var df = lFileNotFind.FirstOrDefault(x => x.NameFile.Equals(ffile.NameFile));
+                                //            if (df != null)
+                                //                lFileNotFind.Remove(df);
+                                //        }
+                                //    }
+                                //    else
+                                //    {
+                                //        string str = @"(/" + ffile.NameFile + @")|(/" + ffile.NameFile + ")|(\\s" + ffile.NameFile + "\\s)|(\\s" + ffile.NameFile + "\\s)";
+                                //        regex = new Regex(str);
+                                //        match = regex.Match(line);
+                                //        if (match.Success)
+                                //        {
+                                //            fileFind.NameFile = ffile.NameFile;
+                                //            fileFind.NumberFile = ++i;
+                                //            fileFind.PathFile = ffile.PathFile;
+                                //            fileFind.NumberStringLogFile = j;
+                                //            fileFind.StringLogFile = line;
 
-                                            lFileFind.Add(fileFind);
-                                            var df = lFileNotFind.FirstOrDefault(x => x.NameFile.Equals(ffile.NameFile));
-                                            if (df != null)
-                                                lFileNotFind.Remove(df);
-                                        }
-                                    }
+                                //            lFileFind.Add(fileFind);
+                                //            var df = lFileNotFind.FirstOrDefault(x => x.NameFile.Equals(ffile.NameFile));
+                                //            if (df != null)
+                                //                lFileNotFind.Remove(df);
+                                //        }
+                                //    }
 
                                     
-                                }
+                                //}
                                 ++j;
                             }
                             //Console.WriteLine("Found: " +lFileFind.Count);
