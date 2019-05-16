@@ -73,9 +73,24 @@ namespace FindInLogBuildFile
                                         string compileFile1 = nameFile + ".o";
                                         string compileFile2 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".o";
                                         string compileFile3 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".lo";
+                                        string compileFile4 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".la";
                                         compileFile2 = compileFile2.Replace("+", "\\+");
                                         compileFile3 = compileFile3.Replace("+", "\\+");
-                                        string str = @"(/" + compileFile1 + @"\s{0,})|(/" + compileFile2 + @"\s{0,})|(/" + compileFile3 + @"\s{0,})|(/" + ffile.NameFile + "\\s{0,})|([\\t\\s]" + compileFile1 + "\\s{0,})|([\\s\\t]" + compileFile2 + "\\s{0,})|([\\s\\t]" + compileFile3 + "\\s{0,})|([\\t\\s]" + ffile.NameFile + "\\s{0,})";
+                                        compileFile4 = compileFile4.Replace("+", "\\+");
+                                        string str = @"(/" + compileFile1 + @"\s{0,})|(/" +
+                                                             compileFile2 + @"\s{0,})|(/" +
+                                                             compileFile3 + @"\s{0,})|(/" +
+                                                             compileFile4 + @"\s{0,})|(-" +
+                                                             compileFile2 + @"\s{0,})|(-" +
+                                                             compileFile3 + @"\s{0,})|(/" +
+                                                             nameFile + "\\s{0,})|([\\t\\s]" +
+                                                             compileFile1 + "\\s{0,})|([\\s\\t]" +
+                                                             compileFile2 + "\\s{0,})|([\\s\\t]" +
+                                                             compileFile3 + "\\s{0,})|([\\t\\s]" +
+                                                             compileFile4 + "\\s{0,})|([-]" +
+                                                             compileFile2 + "\\s{0,})|([-]" +
+                                                             compileFile3 + "\\s{0,})|([\\t\\s]" +
+                                                             nameFile + "\\s{0,})";
                                         regex = new Regex(str);
                                         match = regex.Match(line);
                                         if (match.Success)
@@ -97,7 +112,22 @@ namespace FindInLogBuildFile
                                         string compileFile1 = ffile.NameFile + ".o";
                                         string compileFile2 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".o";
                                         string compileFile3 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".lo";
-                                        string str = @"(/" + compileFile1 + @"\s{0,})|(/" + compileFile2 + @"\s{0,})|(/" + compileFile3 + @"\s{0,})|(/" + ffile.NameFile + "\\s{0,})|([\\t\\s]" + compileFile1 + "\\s{0,})|([\\s\\t]" + compileFile2 + "\\s{0,})|([\\s\\t]" + compileFile3 + "\\s{0,})|([\\t\\s]" + ffile.NameFile + "\\s{0,})";
+                                        string compileFile4 = Path.GetFileNameWithoutExtension(ffile.PathFile) + ".la";
+                                        //string compileFile5 = "-" + Path.GetFileNameWithoutExtension(ffile.PathFile) + ".o";
+                                        string str = @"(/" + compileFile1 + @"\s{0,})|(/" + 
+                                                             compileFile2 + @"\s{0,})|(/" + 
+                                                             compileFile3 + @"\s{0,})|(/" + 
+                                                             compileFile4 + @"\s{0,})|(-" +
+                                                             compileFile2 + @"\s{0,})|(-" +
+                                                             compileFile3 + @"\s{0,})|(/" +
+                                                             ffile.NameFile + "\\s{0,})|([\\t\\s]" + 
+                                                             compileFile1 + "\\s{0,})|([\\s\\t]" + 
+                                                             compileFile2 + "\\s{0,})|([\\s\\t]" + 
+                                                             compileFile3 + "\\s{0,})|([\\t\\s]" + 
+                                                             compileFile4 + "\\s{0,})|([-]" +
+                                                             compileFile2 + "\\s{0,})|([-]" +
+                                                             compileFile3 + "\\s{0,})|([\\t\\s]" +
+                                                             ffile.NameFile + "\\s{0,})";
                                         regex = new Regex(str);
                                         match = regex.Match(line);
                                         if (match.Success)

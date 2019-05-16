@@ -14,7 +14,7 @@ namespace FindInLogBuildFile
         public void openFolderWithFile()
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = @"C:\";
+            fbd.SelectedPath = @"E:\share\83t415(A190)\buildtools_tarc\";
             fbd.ShowNewFolderButton = false;
 
             if(fbd.ShowDialog() == DialogResult.OK)
@@ -36,7 +36,7 @@ namespace FindInLogBuildFile
         public void openFolderWithLogCompiled()
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = @"C:\";
+            fbd.SelectedPath = @"E:\share\83t415(A190)\LogBuild\";
             fbd.ShowNewFolderButton = false;
 
             if (fbd.ShowDialog() == DialogResult.OK)
